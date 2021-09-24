@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "allowJs": true,
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@config/*": [
+        "config/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@infra/*": [
+        "infra/*"
+      ],
+      "@modules/*": [
+        "modules/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "public",
+    "*.js"
+  ]
+}
