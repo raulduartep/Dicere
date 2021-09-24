@@ -3,7 +3,7 @@ import { AppError } from '@shared/errors/AppError';
 export namespace AuthenticateUserWithGoogleError {
   export class GoogleErrorGetAccessToken extends AppError {
     constructor() {
-      super('Error to get google user access token ', 401);
+      super('Error to get google user access token', 401);
     }
   }
 

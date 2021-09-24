@@ -29,7 +29,7 @@ export class AuthenticateUserWithGoogleUseCase {
     const googleOAuthProvider = new GoogleOAuthProvider();
 
     const googleAccessToken = await googleOAuthProvider
-      .getToken(`${code}dsadsa`)
+      .getToken(code)
       .catch(() => {
         throw new AuthenticateUserWithGoogleError.GoogleErrorGetAccessToken();
       });

@@ -12,7 +12,7 @@ import createConnection from './infra/typeorm';
 
 createConnection();
 
-const port = process.env.SERVER_PORT;
+const port = process.env.SERVER_PORT || 3333;
 
 const server = createServer(httpApp);
 new WebSocketApp(server).run();
