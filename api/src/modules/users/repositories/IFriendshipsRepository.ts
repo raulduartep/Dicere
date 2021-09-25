@@ -25,6 +25,8 @@ export interface IFriendshipsRepository {
     friendId: string;
   }): Promise<IUserFriend>;
 
+  getFriendshipsByUser(userId: string): Promise<IUserFriend[]>;
+
   findUndecidedRequest(data: {
     userId: string;
     friendId: string;
