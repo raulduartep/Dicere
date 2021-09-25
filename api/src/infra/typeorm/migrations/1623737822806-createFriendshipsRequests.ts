@@ -28,6 +28,11 @@ export class createFriendshipsRequests1623737822806
             default: null,
           },
           {
+            name: 'deleted',
+            type: 'boolean',
+            default: 'false',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

@@ -11,5 +11,7 @@ export interface IFriendshipRequest {
 
   decision: IEnumDecisionFriendshipRequest;
 
+  deleted: boolean;
+
   createdAt: Date;
 }

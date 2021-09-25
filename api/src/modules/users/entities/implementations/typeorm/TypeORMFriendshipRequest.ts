@@ -24,6 +24,9 @@ export class TypeORMFriendshipRequest implements IFriendshipRequest {
   })
   decision: IEnumDecisionFriendshipRequest;
 
+  @Column('boolean', { default: false })
+  deleted: boolean;
+
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', default: 'now()' })
   createdAt: Date;
 

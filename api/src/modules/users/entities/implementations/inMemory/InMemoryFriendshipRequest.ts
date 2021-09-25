@@ -14,15 +14,21 @@ export class InMemoryFriendshipRequest implements IFriendshipRequest {
 
   decision: IEnumDecisionFriendshipRequest;
 
+  deleted: boolean;
+
   createdAt: Date;
 
   constructor(
-    props: Omit<InMemoryFriendshipRequest, 'id' | 'decision' | 'createdAt'>
+    props: Omit<
+      InMemoryFriendshipRequest,
+      'id' | 'decision' | 'deleted' | 'createdAt'
+    >
   ) {
     Object.assign(this, {
       ...props,
       id: uuid(),
       decision: null,
+      deleted: false,
       createdAt: new Date(),
     });
   }
