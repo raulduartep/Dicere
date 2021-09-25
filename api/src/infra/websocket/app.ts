@@ -13,12 +13,13 @@ import { DecideInvitationGroupControllerWs } from '@modules/chat/useCases/decide
 import { GetMessagesControllerWs } from '@modules/chat/useCases/getMessages/GetMessagesControllerWs';
 import { GetUserRoomsUseCase } from '@modules/chat/useCases/getUserRooms/GetUserRoomsUseCase';
 import { TypingMessageControllerWs } from '@modules/chat/useCases/typingMessage/TypingMessageControllerWs';
+import { CancelFriendshipRequestControllerWs } from '@modules/users/useCases/cancelFriendshipRequest/CancelFriendshipRequestControllerWs';
 import { CreateFriendshipRequestControllerWs } from '@modules/users/useCases/createFriendshipRequest/CreateFriendshipRequestControllerWs';
 import { CreateIoConnectionUseCase } from '@modules/users/useCases/createIoConnection/CreateIoConnectionUseCase';
 import { DecidedFriendRequestControllerWs } from '@modules/users/useCases/decideFriendRequest/DecideFriendRequestControllerWs';
 
 import { ensureAuthenticate } from './middlewares/ensureAuthenticate';
-import { ensureAuthenticateForSocket } from './middlewares/ensureAuthenticateForSocket';
+// import { ensureAuthenticateForSocket } from './middlewares/ensureAuthenticateForSocket';
 
 export type IExtendedSocket = Socket & { user: { id: string } };
 
@@ -71,6 +72,7 @@ export class WebSocketApp {
     const createInvitationGroupController = new CreateInvitationGroupControllerWs();
     const decideInvitationGroupController = new DecideInvitationGroupControllerWs();
     const typingMessageController = new TypingMessageControllerWs();
+    const cancelFriendshipRequestController = new CancelFriendshipRequestControllerWs();
 
     this.io.on('connection', async (socket: IExtendedSocket) => {
       // socket.use(await ensureAuthenticateForSocket(socket));
@@ -89,11 +91,11 @@ export class WebSocketApp {
         userId: socket.user.id,
       });
 
-      socket.emit('server:chatState', rooms);
+      const roomsIds = rooms.map(room => room.room.id);
 
-      // const roomsIds = rooms.map(room => room.room.id);
+      this.registerSocketInRooms(roomsIds, socket);
 
-      // this.registerSocketInRooms(roomsIds, socket);
+      socket.emit('server:allRooms', rooms);
 
       this.prepareOn(
         socket,
@@ -103,41 +105,47 @@ export class WebSocketApp {
 
       this.prepareOn(socket, 'client:getMessage', getMessagesUseCase.handle);
 
-      // this.prepareOn(
-      //   socket,
-      //   'client:changeMessageStatus',
-      //   changeMessageUserStatusController.handle
-      // );
+      this.prepareOn(
+        socket,
+        'client:changeMessageStatus',
+        changeMessageUserStatusController.handle
+      );
 
-      // this.prepareOn(
-      //   socket,
-      //   'client:createFriendshipRequest',
-      //   createFriendshipRequestController.handle
-      // );
+      this.prepareOn(
+        socket,
+        'client:createFriendshipRequest',
+        createFriendshipRequestController.handle
+      );
 
-      // this.prepareOn(
-      //   socket,
-      //   'client:decideFriendshipRequest',
-      //   decideFrienshipRequestController.handle
-      // );
+      this.prepareOn(
+        socket,
+        'client:decideFriendshipRequest',
+        decideFrienshipRequestController.handle
+      );
 
-      // this.prepareOn(
-      //   socket,
-      //   'client:createInvitationGroup',
-      //   createInvitationGroupController.handle
-      // );
+      this.prepareOn(
+        socket,
+        'client:createInvitationGroup',
+        createInvitationGroupController.handle
+      );
 
-      // this.prepareOn(
-      //   socket,
-      //   'client:decideInvitationGroup',
-      //   decideInvitationGroupController.handle
-      // );
+      this.prepareOn(
+        socket,
+        'client:decideInvitationGroup',
+        decideInvitationGroupController.handle
+      );
 
-      // this.prepareOn(
-      //   socket,
-      //   'client:typingMessage',
-      //   typingMessageController.handle
-      // );
+      this.prepareOn(
+        socket,
+        'client:typingMessage',
+        typingMessageController.handle
+      );
+
+      this.prepareOn(
+        socket,
+        'client:cancelFriendshipRequest',
+        cancelFriendshipRequestController.handle
+      );
     });
   }
 

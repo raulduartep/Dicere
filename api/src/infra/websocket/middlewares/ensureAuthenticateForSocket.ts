@@ -8,7 +8,14 @@ import { authConfig } from '@config/auth';
 
 import { IExtendedSocket } from '../app';
 
-export async function ensureAuthenticateForSocket(socket: IExtendedSocket) {
+type FunctionMiddleware = (
+  packet: any[],
+  next: (err?: AppError) => void
+) => Promise<void>;
+
+export async function ensureAuthenticateForSocket(
+  socket: IExtendedSocket
+): Promise<FunctionMiddleware> {
   const handle = async (
     packet: any[],
     next: (err?: AppError) => void
