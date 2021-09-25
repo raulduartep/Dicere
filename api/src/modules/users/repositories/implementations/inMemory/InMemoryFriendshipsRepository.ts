@@ -1,5 +1,8 @@
 import { ICreateFriendshipRequestDTO } from '@modules/users/dtos/ICreateFriendshipRequestDTO';
-import { IEnumDecisionFriendshipRequest } from '@modules/users/entities/IFriendshipRequest';
+import {
+  IEnumDecisionFriendshipRequest,
+  IFriendshipRequest,
+} from '@modules/users/entities/IFriendshipRequest';
 import { InMemoryFriendshipRequest } from '@modules/users/entities/implementations/inMemory/InMemoryFriendshipRequest';
 import { InMemoryUserFriend } from '@modules/users/entities/implementations/inMemory/InMemoryUserFriend';
 import { IUserFriend } from '@modules/users/entities/IUserFriend';
@@ -109,5 +112,15 @@ export class InMemoryFriendshipsRepository implements IFriendshipsRepository {
       decision,
       friendshipRequest,
     };
+  }
+
+  async deleteFriendRequest(requestId: string): Promise<IFriendshipRequest> {
+    const friendshipRequest = this.friendshipsRequest.find(
+      request => request.id === requestId
+    );
+
+    friendshipRequest.deleted = true;
+
+    return friendshipRequest;
   }
 }

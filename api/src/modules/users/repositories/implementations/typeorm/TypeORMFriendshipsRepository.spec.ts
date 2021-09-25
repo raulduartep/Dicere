@@ -162,7 +162,7 @@ describe('TypeORM Friendships Repository', () => {
     expect(getFriendeshipRequest).toEqual(friendshipRequest);
   });
 
-  it('Should be able to find friendship', async () => {
+  it('Should be able to find a friendship', async () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -196,7 +196,7 @@ describe('TypeORM Friendships Repository', () => {
     expect(getFriendship).toEqual(acceptedFriendship.friendshipUser);
   });
 
-  it('Should be able to find friendship request', async () => {
+  it('Should be able to find a friendship request', async () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -220,5 +220,36 @@ describe('TypeORM Friendships Repository', () => {
 
     expect(getFriendship).toBeTruthy();
     expect(getFriendship).toEqual(friendshipRequest);
+  });
+
+  it('Shoulf be able to delete a friendship request', async () => {
+    const user1 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const user2 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const friendshipRequest = await friendshipsRepository.createRequest({
+      userId: user1.id,
+      friendId: user2.id,
+    });
+
+    const deletedFriendshipRequest = await friendshipsRepository.deleteFriendRequest(
+      friendshipRequest.id
+    );
+
+    expect(deletedFriendshipRequest).toBeTruthy();
+    expect(deletedFriendshipRequest).toEqual(
+      expect.objectContaining({
+        ...friendshipRequest,
+        deleted: true,
+      })
+    );
   });
 });

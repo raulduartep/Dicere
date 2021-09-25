@@ -44,4 +44,6 @@ export interface IFriendshipsRepository {
     requestId: string;
     decision: IEnumDecisionFriendshipRequest;
   }): Promise<IAcceptFriendRequest | IRejectFriendRequest>;
+
+  deleteFriendRequest(requestId: string): Promise<IFriendshipRequest>;
 }

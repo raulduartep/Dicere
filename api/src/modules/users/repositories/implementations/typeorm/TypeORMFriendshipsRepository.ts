@@ -1,7 +1,10 @@
 import { getManager, getRepository, Repository } from 'typeorm';
 
 import { ICreateFriendshipRequestDTO } from '@modules/users/dtos/ICreateFriendshipRequestDTO';
-import { IEnumDecisionFriendshipRequest } from '@modules/users/entities/IFriendshipRequest';
+import {
+  IEnumDecisionFriendshipRequest,
+  IFriendshipRequest,
+} from '@modules/users/entities/IFriendshipRequest';
 import { TypeORMFriendshipRequest } from '@modules/users/entities/implementations/typeorm/TypeORMFriendshipRequest';
 import { TypeORMUserFriend } from '@modules/users/entities/implementations/typeorm/TypeORMUserFriend';
 import { IUserFriend } from '@modules/users/entities/IUserFriend';
@@ -137,5 +140,20 @@ export class TypeORMFriendshipsRepository implements IFriendshipsRepository {
     );
 
     return decidedFriendship;
+  }
+
+  async deleteFriendRequest(requestId: string): Promise<IFriendshipRequest> {
+    const friendshipRequest = await this.friendshipsRequestRepository.findOne(
+      requestId
+    );
+
+    await this.friendshipsRequestRepository.update(requestId, {
+      deleted: true,
+    });
+
+    return {
+      ...friendshipRequest,
+      deleted: true,
+    };
   }
 }
