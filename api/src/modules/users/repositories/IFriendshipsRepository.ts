@@ -27,6 +27,13 @@ export interface IFriendshipsRepository {
 
   getFriendshipsByUser(userId: string): Promise<IUserFriend[]>;
 
+  getPendingsSentFriendshipsByUser(
+    userId: string
+  ): Promise<IFriendshipRequest[]>;
+  getPendingsReceivedFriendshipsByUser(
+    userId: string
+  ): Promise<IFriendshipRequest[]>;
+
   findUndecidedRequest(data: {
     userId: string;
     friendId: string;

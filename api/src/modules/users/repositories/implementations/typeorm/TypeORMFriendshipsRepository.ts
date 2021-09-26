@@ -156,4 +156,42 @@ export class TypeORMFriendshipsRepository implements IFriendshipsRepository {
       deleted: true,
     };
   }
+
+  async getFriendshipsByUser(userId: string): Promise<IUserFriend[]> {
+    const userFriends = await this.usersFriendsRepository.find({
+      where: {
+        userId,
+      },
+    });
+
+    return userFriends;
+  }
+
+  async getPendingsSentFriendshipsByUser(
+    userId: string
+  ): Promise<IFriendshipRequest[]> {
+    const userFriends = await this.friendshipsRequestRepository.find({
+      where: {
+        userId,
+        deleted: false,
+        decision: null,
+      },
+    });
+
+    return userFriends;
+  }
+
+  async getPendingsReceivedFriendshipsByUser(
+    userId: string
+  ): Promise<IFriendshipRequest[]> {
+    const userFriends = await this.friendshipsRequestRepository.find({
+      where: {
+        friendId: userId,
+        deleted: false,
+        decision: null,
+      },
+    });
+
+    return userFriends;
+  }
 }

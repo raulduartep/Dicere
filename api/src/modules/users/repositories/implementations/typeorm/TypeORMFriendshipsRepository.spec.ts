@@ -222,7 +222,7 @@ describe('TypeORM Friendships Repository', () => {
     expect(getFriendship).toEqual(friendshipRequest);
   });
 
-  it('Shoulf be able to delete a friendship request', async () => {
+  it('Should be able to delete a friendship request', async () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -251,5 +251,85 @@ describe('TypeORM Friendships Repository', () => {
         deleted: true,
       })
     );
+  });
+
+  it('Should be able to get all friendships', async () => {
+    const user1 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const user2 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const friendshipRequest = await friendshipsRepository.createRequest({
+      userId: user1.id,
+      friendId: user2.id,
+    });
+
+    await friendshipsRepository.decidedFriendRequest({
+      decision: IEnumDecisionFriendshipRequest.ACCEPTED,
+      requestId: friendshipRequest.id,
+    });
+
+    const allFriendships = await friendshipsRepository.getFriendshipsByUser(
+      user1.id
+    );
+
+    expect(allFriendships).toEqual([user2]);
+  });
+
+  it('Should be able to get all sent pendings friendships', async () => {
+    const user1 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const user2 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const friendshipRequest = await friendshipsRepository.createRequest({
+      userId: user1.id,
+      friendId: user2.id,
+    });
+
+    const allPendingsSentFriendships = await friendshipsRepository.getPendingsSentFriendshipsByUser(
+      user1.id
+    );
+
+    expect(allPendingsSentFriendships).toEqual([friendshipRequest]);
+  });
+
+  it('Should be able to get all received pendings friendships', async () => {
+    const user1 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const user2 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.name.findName(),
+    });
+
+    const friendshipRequest = await friendshipsRepository.createRequest({
+      userId: user1.id,
+      friendId: user2.id,
+    });
+
+    const allPendingsSentFriendships = await friendshipsRepository.getPendingsReceivedFriendshipsByUser(
+      user2.id
+    );
+
+    expect(allPendingsSentFriendships).toEqual([friendshipRequest]);
   });
 });
