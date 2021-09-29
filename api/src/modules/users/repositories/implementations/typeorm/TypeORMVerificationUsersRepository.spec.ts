@@ -4,12 +4,14 @@ import { Connection } from 'typeorm';
 import createConnection from '@infra/typeorm';
 import { ICreateVerificationUserDTO } from '@modules/users/dtos/ICreateVerificationUserDTO';
 
+import { TypeORMUserRequestsRepository } from './TypeORMUserRequestsRepository';
 import { TypeORMUsersRepository } from './TypeORMUsersRepository';
 import { TypeORMVerificationUsersRepository } from './TypeORMVerificationUsersRepository';
 
 let connection: Connection;
 let verificationUsersRepository: TypeORMVerificationUsersRepository;
 let usersRepository: TypeORMUsersRepository;
+let usersRequestsRepository: TypeORMUserRequestsRepository;
 
 describe('TypeORM Verification Users Repository', () => {
   beforeAll(async () => {
@@ -17,6 +19,7 @@ describe('TypeORM Verification Users Repository', () => {
     await connection.runMigrations();
 
     verificationUsersRepository = new TypeORMVerificationUsersRepository();
+    usersRequestsRepository = new TypeORMUserRequestsRepository();
 
     usersRepository = new TypeORMUsersRepository();
   });
@@ -27,14 +30,14 @@ describe('TypeORM Verification Users Repository', () => {
   });
 
   it('Should be able to create a new verification user and return him', async () => {
-    const user = await usersRepository.create({
+    const userRequest = await usersRequestsRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
     });
 
     const verificationUser: ICreateVerificationUserDTO = {
-      userId: user.id,
+      userRequestId: userRequest.id,
       token: faker.datatype.uuid(),
       expiresIn: faker.datatype.datetime(),
     };
@@ -48,7 +51,7 @@ describe('TypeORM Verification Users Repository', () => {
       expect.objectContaining({
         id: expect.any(String),
         token: verificationUser.token,
-        userId: verificationUser.userId,
+        userRequestId: verificationUser.userRequestId,
         expiresIn: verificationUser.expiresIn,
         createdAt: expect.any(Date),
       })
@@ -56,20 +59,20 @@ describe('TypeORM Verification Users Repository', () => {
   });
 
   it('Should be able to get a verification user by user id', async () => {
-    const user = await usersRepository.create({
+    const userRequest = await usersRequestsRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
     });
 
     const verificationUser = await verificationUsersRepository.create({
-      userId: user.id,
+      userRequestId: userRequest.id,
       token: faker.datatype.uuid(),
       expiresIn: faker.datatype.datetime(),
     });
 
-    const getVerificationUser = await verificationUsersRepository.findByUserId(
-      user.id
+    const getVerificationUser = await verificationUsersRepository.findByUserRequestId(
+      userRequest.id
     );
 
     expect(getVerificationUser).toBeTruthy();
@@ -77,14 +80,14 @@ describe('TypeORM Verification Users Repository', () => {
   });
 
   it('Should be able to get a verification user by id', async () => {
-    const user = await usersRepository.create({
+    const userRequest = await usersRequestsRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
     });
 
     const verificationUser = await verificationUsersRepository.create({
-      userId: user.id,
+      userRequestId: userRequest.id,
       token: faker.datatype.uuid(),
       expiresIn: faker.datatype.datetime(),
     });

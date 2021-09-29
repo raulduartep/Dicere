@@ -81,7 +81,7 @@ describe('DecideInvitationGroupUseCase', () => {
         room: {
           room: expect.objectContaining({
             id: room.id,
-            groupName: group.name,
+            name: group.name,
           }),
           lastMessages: [],
           usersIn: expect.arrayContaining([

@@ -1,6 +1,8 @@
+import '@shared/container/test';
 import faker from 'faker';
 import { container } from 'tsyringe';
 
+import { UserMap } from '@modules/users/mappers/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
 import { GetMeError } from './GetMeError';
@@ -24,7 +26,7 @@ describe('Get Me Use Case', () => {
 
     const userGetted = await getMeUseCase.execute({ userId: userCreated.id });
 
-    expect(userCreated).toEqual(userGetted);
+    expect(userGetted).toEqual(UserMap.map(userCreated));
   });
 
   it('Should not be able to get a user info if user does not exist', async () => {

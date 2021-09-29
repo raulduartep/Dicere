@@ -1,3 +1,4 @@
+import { PrivateRoute } from 'components/atoms/PrivateRoute';
 import React from 'react';
 import { Route } from 'react-router-dom';
 // import { PrivateRoute } from './components/PrivateRoute';
@@ -19,6 +20,6 @@ export const Routes: React.FC = () => (
     <Route path="/auth/github/callback" component={GithubCalbackPage} />
     <Route path="/verify" component={VerifyAccountPage} />
     <Route path="/reset" component={ResetPasswordPage} />
-    <Route path="/app" component={AppPage} />
+    <PrivateRoute path="/app" component={AppPage} />
   </>
 );

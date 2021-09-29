@@ -45,45 +45,29 @@ describe('Get Messages Use Case', () => {
       userId: user.id,
     });
 
-    const message = await messagesRepository.create({
-      typeMessage: IMessageTypeEnum.TEXT,
-      content: faker.lorem.text(),
-      roomId: room.id,
-      creatorUserId: user.id,
-      forUsers: [],
-    });
+    const messages = [];
 
-    const message1 = await messagesRepository.create({
-      typeMessage: IMessageTypeEnum.TEXT,
-      content: faker.lorem.text(),
-      roomId: room.id,
-      creatorUserId: user.id,
-      forUsers: [],
-    });
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < 20; index++) {
+      // eslint-disable-next-line no-await-in-loop
+      const message = await messagesRepository.create({
+        typeMessage: IMessageTypeEnum.TEXT,
+        content: faker.lorem.text(),
+        roomId: room.id,
+        creatorUserId: user.id,
+        forUsers: [],
+      });
+    }
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    const message2 = await messagesRepository.create({
-      typeMessage: IMessageTypeEnum.TEXT,
-      content: faker.lorem.text(),
-      roomId: room.id,
-      creatorUserId: user.id,
-      forUsers: [],
-    });
-
-    const messages = await getMoreMessageUseCase.execute({
+    const messagesGetted = await getMoreMessageUseCase.execute({
       userId: user.id,
       roomId: room.id,
       page: 1,
     });
 
-    expect(messages).toEqual(
-      expect.arrayContaining([
-        MessageMap.map(message),
-        MessageMap.map(message1),
-        MessageMap.map(message2),
-      ])
-    );
+    messages.pop();
+
+    expect(messagesGetted).toEqual(expect.arrayContaining(messages));
   });
 
   it('Should not be able to get more room messages if user does not exist', async () => {

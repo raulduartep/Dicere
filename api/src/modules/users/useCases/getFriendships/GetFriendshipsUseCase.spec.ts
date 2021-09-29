@@ -1,3 +1,4 @@
+import '@shared/container/test';
 import faker from 'faker';
 import { container } from 'tsyringe';
 

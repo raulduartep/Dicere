@@ -61,18 +61,12 @@ describe('Send Forgot Password Mail', () => {
       subject: verificationUser.id,
     });
 
-    const user = await verifyUserUseCase.execute({
-      accessToken,
-      token,
-    });
-
-    expect(user).toEqual(
-      expect.objectContaining({
-        email: userRequest.email,
-        name: userRequest.name,
-        createdAt: userRequest.createdAt,
+    await expect(
+      verifyUserUseCase.execute({
+        accessToken,
+        token,
       })
-    );
+    ).resolves.not.toThrow();
   });
 
   it('Should not be able to verify an user if access token is not valid', async () => {

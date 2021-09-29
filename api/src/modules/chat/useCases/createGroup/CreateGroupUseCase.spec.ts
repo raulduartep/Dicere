@@ -35,7 +35,7 @@ describe('Create Group Use Case', () => {
         id: expect.any(String),
         adminId: user.id,
         type: IRoomTypeEnum.GROUP,
-        groupName: group.name,
+        name: group.name,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       }),

@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useReducer, useRef } from 'react';
-import { useAxios } from './useAxios';
+import { FetchError, useAxios } from './useAxios';
 
 interface LazyFetchOptions {
   endpoint: string;
@@ -125,7 +125,10 @@ export function useEagerFetch<T = Record<string, unknown>>({
 
         dispatchReducer({ type: RequestType.success, payload: response.data });
       } catch (error) {
-        dispatchReducer({ type: RequestType.failure, payload: error.message });
+        dispatchReducer({
+          type: RequestType.failure,
+          payload: (error as FetchError).message,
+        });
       }
     }
 
@@ -167,7 +170,10 @@ export function useLazyFetch<T = Record<string, unknown>>({
           payload: response.data,
         });
       } catch (error) {
-        dispatchReducer({ type: RequestType.failure, payload: error.message });
+        dispatchReducer({
+          type: RequestType.failure,
+          payload: (error as FetchError).message,
+        });
       }
     },
     [dispatchAxios, dispatchReducer, endpoint]

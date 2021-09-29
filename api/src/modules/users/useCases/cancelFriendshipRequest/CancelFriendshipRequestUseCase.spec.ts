@@ -1,3 +1,4 @@
+import '@shared/container/test';
 import faker from 'faker';
 import { container } from 'tsyringe';
 
@@ -44,7 +45,7 @@ describe('Cancel Friendship Request Use Case', () => {
         friendshipRequestId: friendshipRequest.id,
         userId: user.id,
       })
-    ).resolves.toBeTruthy();
+    ).resolves.not.toThrow();
   });
 
   it('Should not be able to cancel a frienship request if user does not exist', async () => {

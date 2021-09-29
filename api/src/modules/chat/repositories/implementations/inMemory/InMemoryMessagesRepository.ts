@@ -103,50 +103,45 @@ export class InMemoryMessagesRepository implements IMessagesRepository {
 
   async getByRoomId({
     roomId,
-    dateLimit,
+    page,
   }: IGetMessageByRoomIdDTO): Promise<IMessageResponse[]> {
     const roomMessages = this.roomsMessages.filter(
       roomMessage => roomMessage.roomId === roomId
     );
 
-    let messages = roomMessages.map(
-      (roomMessage): IMessageResponse => {
-        const message = this.messages.find(
-          message => message.id === roomMessage.messageId
-        );
-
-        const messageUserStatus = this.messagesUserStatus.filter(
-          status => status.messageId === message.id
-        );
-
-        let messageContent: InMemoryMessageText | InMemoryMessageMedia;
-
-        if (message.type === 'text') {
-          messageContent = this.textMessages.find(
-            textMessage => textMessage.messageId === message.id
+    let messages = roomMessages
+      .map(
+        (roomMessage): IMessageResponse => {
+          const message = this.messages.find(
+            message => message.id === roomMessage.messageId
           );
-        } else {
-          messageContent = this.mediaMessages.find(
-            mediaMessage => mediaMessage.messageId === message.id
+
+          const messageUserStatus = this.messagesUserStatus.filter(
+            status => status.messageId === message.id
           );
+
+          let messageContent: InMemoryMessageText | InMemoryMessageMedia;
+
+          if (message.type === 'text') {
+            messageContent = this.textMessages.find(
+              textMessage => textMessage.messageId === message.id
+            );
+          } else {
+            messageContent = this.mediaMessages.find(
+              mediaMessage => mediaMessage.messageId === message.id
+            );
+          }
+
+          return {
+            message,
+            messageContent,
+            messageUserStatus,
+            roomMessage,
+          };
         }
+      )
+      .filter((_, index) => index < page * 20 && index >= (page - 1) * 20);
 
-        return {
-          message,
-          messageContent,
-          messageUserStatus,
-          roomMessage,
-        };
-      }
-    );
-
-    if (dateLimit) {
-      messages = messages.filter(
-        message =>
-          message.message.createdAt < dateLimit.end &&
-          message.message.createdAt > dateLimit.start
-      );
-    }
     messages = messages.sort((message1, message2) => {
       if (message1.message.createdAt < message2.message.createdAt) return -1;
       if (message1.message.createdAt > message2.message.createdAt) return 1;

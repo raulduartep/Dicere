@@ -271,16 +271,18 @@ describe('TypeORM Friendships Repository', () => {
       friendId: user2.id,
     });
 
-    await friendshipsRepository.decidedFriendRequest({
-      decision: IEnumDecisionFriendshipRequest.ACCEPTED,
-      requestId: friendshipRequest.id,
-    });
+    const { friendshipUser } = await friendshipsRepository.decidedFriendRequest(
+      {
+        decision: IEnumDecisionFriendshipRequest.ACCEPTED,
+        requestId: friendshipRequest.id,
+      }
+    );
 
     const allFriendships = await friendshipsRepository.getFriendshipsByUser(
       user1.id
     );
 
-    expect(allFriendships).toEqual([user2]);
+    expect(allFriendships).toEqual([friendshipUser]);
   });
 
   it('Should be able to get all sent pendings friendships', async () => {

@@ -123,4 +123,38 @@ export class InMemoryFriendshipsRepository implements IFriendshipsRepository {
 
     return friendshipRequest;
   }
+
+  async getFriendshipsByUser(userId: string): Promise<IUserFriend[]> {
+    const friends = this.usersFriends.filter(
+      userFriend => userFriend.userId === userId
+    );
+
+    return friends;
+  }
+
+  async getPendingsSentFriendshipsByUser(
+    userId: string
+  ): Promise<IFriendshipRequest[]> {
+    const pendingsFriendships = this.friendshipsRequest.filter(
+      request =>
+        request.userId === userId &&
+        request.decision === null &&
+        request.deleted === false
+    );
+
+    return pendingsFriendships;
+  }
+
+  async getPendingsReceivedFriendshipsByUser(
+    userId: string
+  ): Promise<IFriendshipRequest[]> {
+    const pendingsFriendships = this.friendshipsRequest.filter(
+      request =>
+        request.friendId === userId &&
+        request.decision === null &&
+        request.deleted === false
+    );
+
+    return pendingsFriendships;
+  }
 }

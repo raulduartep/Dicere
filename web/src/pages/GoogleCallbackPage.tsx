@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { LoadingTemplate } from 'components/templates/LoadingTemplate';
 
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { FaGoogle } from 'react-icons/fa';
 import { ISessionsData } from '../contexts/auth';
 import { useAuth } from '../hooks/useAuth';
-import { RequestStatus, useEagerFetch } from '../hooks/useFetch';
+import { RequestStatus, useEagerFetch, useLazyFetch } from '../hooks/useFetch';
 import { useQuery } from '../hooks/useQuery';
 
 type ParamsGoogleCallback = {
@@ -20,19 +20,26 @@ type IStateType = {
 export const GoogleCalbackPage = (): JSX.Element => {
   const { code } = useQuery<ParamsGoogleCallback>();
   const { isSigned, signIn } = useAuth();
-  const stateGoogleSignIn = useEagerFetch<ISessionsData>({
-    endpoint: 'sessions/google',
-    withAuth: false,
-    options: {
-      method: 'GET',
-      params: {
-        code,
+  const [dispatchGoogleSignIn, stateGoogleSignIn] = useLazyFetch<ISessionsData>(
+    {
+      endpoint: 'sessions/google',
+      withAuth: false,
+      options: {
+        method: 'GET',
       },
-    },
-  });
+    }
+  );
   const history = useHistory();
   const location = useLocation<IStateType>();
   const locationRef = useRef(location.state || { from: { pathname: '/app' } });
+
+  const handleGoogleSignIn = useCallback(() => {
+    dispatchGoogleSignIn({
+      params: {
+        code,
+      },
+    });
+  }, [code, dispatchGoogleSignIn]);
 
   useEffect(() => {
     if (!code) {
@@ -40,6 +47,12 @@ export const GoogleCalbackPage = (): JSX.Element => {
       history.push('/');
     }
   });
+
+  useEffect(() => {
+    if (!isSigned) {
+      handleGoogleSignIn();
+    }
+  }, [handleGoogleSignIn, isSigned]);
 
   useEffect(() => {
     if (stateGoogleSignIn.status === RequestStatus.fetched) {
@@ -56,7 +69,6 @@ export const GoogleCalbackPage = (): JSX.Element => {
           console.log(error);
         }
       })();
-      return;
     }
 
     if (stateGoogleSignIn.status === RequestStatus.error) {
@@ -66,7 +78,9 @@ export const GoogleCalbackPage = (): JSX.Element => {
   }, [history, signIn, stateGoogleSignIn]);
 
   if (isSigned) {
-    toast.info('Usuário já autenticado');
+    toast.info('Usuário já autenticado', {
+      toastId: 'googleAlreadyAutenticated',
+    });
     return <Redirect to={locationRef.current.from} />;
   }
 

@@ -8,7 +8,7 @@ interface FetchOptions {
   withAuth?: boolean;
 }
 
-class FetchError extends Error {
+export class FetchError extends Error {
   readonly message: string;
 
   readonly statusCode: number;
