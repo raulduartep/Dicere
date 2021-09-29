@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IEnumDecisionInvitationGroup } from '@modules/chat/entities/IInvitationGroup';
+import { IMessageMap, MessageMap } from '@modules/chat/mappers/MessageMap';
 import { IRoomGroupMap, RoomMap } from '@modules/chat/mappers/RoomMap';
 import { IGroupsRepository } from '@modules/chat/repositories/IGroupsRepository';
 import { IInvitationsGroupsRepository } from '@modules/chat/repositories/IInvitationsGroupsRepository';
@@ -8,6 +9,7 @@ import { IMessagesRepository } from '@modules/chat/repositories/IMessagesReposit
 import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
 import { IRoomsUsersRepository } from '@modules/chat/repositories/IRoomsUsersRepository';
 import { IIoConnection } from '@modules/users/entities/IIoConnection';
+import { IUserMapForPublic, UserMap } from '@modules/users/mappers/UserMap';
 import { IIoConnectionsRepository } from '@modules/users/repositories/IIoConnectionsRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
@@ -21,7 +23,11 @@ type IRequest = {
 
 type IResponse = {
   friendConnection: IIoConnection;
-  room: IRoomGroupMap;
+  room: {
+    room: IRoomGroupMap;
+    lastMessages: IMessageMap[];
+    usersIn: IUserMapForPublic[];
+  };
 };
 
 @injectable()
@@ -106,9 +112,24 @@ export class DecideInvitationGroupUseCase {
 
       const room = await this.roomsRepository.findById(group.roomId);
 
+      const lastMessages = await this.messagesRepository.getByRoomId({
+        roomId: room.id,
+        page: 1,
+      });
+
+      const usersInIds = (
+        await this.roomsUsersRepository.getByRoomId(room.id)
+      ).map(roomUser => roomUser.userId);
+
+      const usersIn = await this.usersRepository.findByIds(usersInIds);
+
       return {
         friendConnection,
-        room: RoomMap.mapGroup(room, group),
+        room: {
+          room: RoomMap.mapGroup(room, group),
+          lastMessages: MessageMap.mapMany(lastMessages),
+          usersIn: UserMap.mapManyForPublic(usersIn),
+        },
       };
     }
 
