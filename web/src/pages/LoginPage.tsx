@@ -62,7 +62,7 @@ export const LoginPage = (): JSX.Element => {
           toast.success('Usuário autenticado com sucesso');
           formRef.current?.reset();
         } catch (error) {
-          toast.error(error.message);
+          toast.error((error as Error).message);
         }
       }
     }

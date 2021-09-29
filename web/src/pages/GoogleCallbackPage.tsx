@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { FaGoogle } from 'react-icons/fa';
 import { ISessionsData } from '../contexts/auth';
 import { useAuth } from '../hooks/useAuth';
-import { RequestStatus, useEagerFetch, useLazyFetch } from '../hooks/useFetch';
+import { RequestStatus, useLazyFetch } from '../hooks/useFetch';
 import { useQuery } from '../hooks/useQuery';
 
 type ParamsGoogleCallback = {
@@ -78,9 +78,6 @@ export const GoogleCalbackPage = (): JSX.Element => {
   }, [history, signIn, stateGoogleSignIn]);
 
   if (isSigned) {
-    toast.info('Usuário já autenticado', {
-      toastId: 'googleAlreadyAutenticated',
-    });
     return <Redirect to={locationRef.current.from} />;
   }
 
