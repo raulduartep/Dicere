@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { toast } from 'react-toastify';
 
-import { RequestStatus, useEagerFetch } from '../hooks/useFetch';
+import { RequestStatus, useLazyFetch } from '../hooks/useFetch';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useSocket } from '../hooks/useSocket';
 
@@ -33,23 +34,19 @@ export const AuthProvider: React.FC = ({ children }) => {
     storagedAccessToken,
     setStoragedAccessToken,
     removeStoragedAccessToken,
-  ] = useLocalStorage('accessToken');
+  ] = useLocalStorage<string>('accessToken');
   const [
     storagedRefreshToken,
     setStoragedRefreshToken,
     removeStoragedRefreshToken,
-  ] = useLocalStorage('refreshToken');
+  ] = useLocalStorage<string>('refreshToken');
   const [, setStoragedUserId, removeStoragedUserId] =
     useLocalStorage<string>('userId');
-  const stateFetch = useEagerFetch<ISessionsData>({
+  const [dispatchFetch, stateFetch] = useLazyFetch<ISessionsData>({
     withAuth: false,
     endpoint: '/sessions/refresh_token',
     options: {
       method: 'POST',
-      data: {
-        refreshToken: storagedRefreshToken,
-        accessToken: storagedAccessToken,
-      },
     },
   });
 
@@ -62,10 +59,10 @@ export const AuthProvider: React.FC = ({ children }) => {
       setIsValidated(true);
     },
     [
-      connectSocket,
       setStoragedAccessToken,
       setStoragedRefreshToken,
       setStoragedUserId,
+      connectSocket,
     ]
   );
 
@@ -83,27 +80,38 @@ export const AuthProvider: React.FC = ({ children }) => {
   ]);
 
   useEffect(() => {
-    if (stateFetch.status === RequestStatus.fetched) {
-      validate({
-        accessToken: stateFetch.data.accessToken,
-        refreshToken: stateFetch.data.refreshToken,
-        userId: stateFetch.data.user.id,
+    async function handleData(data: ISessionsData) {
+      await validate({
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+        userId: data.user.id,
       });
+
+      toast.info('Usuário já autenticado');
+    }
+
+    if (stateFetch.status === RequestStatus.fetched) {
+      handleData(stateFetch.data);
     }
   }, [stateFetch, validate]);
 
   useEffect(() => {
     if (stateFetch.status === RequestStatus.error) {
-      removeStoragedAccessToken();
-      removeStoragedRefreshToken();
-      removeStoragedUserId();
+      invalidate();
     }
-  }, [
-    removeStoragedAccessToken,
-    removeStoragedRefreshToken,
-    removeStoragedUserId,
-    stateFetch.status,
-  ]);
+  }, [invalidate, stateFetch]);
+
+  useEffect(() => {
+    if (storagedAccessToken && storagedRefreshToken && !isValidated) {
+      dispatchFetch({
+        body: {
+          refreshToken: storagedRefreshToken,
+          accessToken: storagedAccessToken,
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <AuthContext.Provider
