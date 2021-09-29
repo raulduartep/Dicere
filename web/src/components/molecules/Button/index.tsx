@@ -25,7 +25,7 @@ export const Button = ({
   return (
     <Container
       disabled={disabled}
-      loading={loading}
+      isLoading={loading}
       variant={variant}
       onClick={disabled || loading ? undefined : onClick}
       {...rest}

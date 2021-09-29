@@ -3,7 +3,7 @@ import { Variant } from './index';
 
 type Props = {
   variant: Variant;
-  loading: boolean;
+  isLoading: boolean;
 };
 
 export const StyledIcon = styled.svg`
@@ -90,5 +90,5 @@ export const Container = styled.button<Props>`
       ? outlined
       : text}
 
-  ${({ loading }) => loading && loadingStyles}
+  ${({ isLoading }) => isLoading && loadingStyles}
 `;
