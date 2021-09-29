@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useLayoutEffect } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { Container, HeaderBar, Content, SideBar, Body } from './styles';
@@ -17,6 +17,10 @@ export const AppTemplate = ({
   frienships,
 }: Props): JSX.Element => {
   const { url } = useRouteMatch();
+
+  useLayoutEffect(() => {
+    document.title = 'Dicere';
+  });
 
   return (
     <Container>
