@@ -40,7 +40,7 @@ export class CancelFriendshipRequestUseCase {
       friendshipRequestId
     );
 
-    if (!friendshipRequestId) {
+    if (!friendshipRequest) {
       throw new CancelFriendshipRequestError.FriendshipRequestDoesNotExist();
     }
 
