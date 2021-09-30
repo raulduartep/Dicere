@@ -88,6 +88,26 @@ describe('TypeORM Users Repository', () => {
     expect(getUser).toEqual(createdUser);
   });
 
+  it('Should be able to get all users by username', async () => {
+    const user = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      username: 'example',
+      name: faker.name.findName(),
+    });
+
+    const user2 = await usersRepository.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      username: 'example2',
+      name: faker.name.findName(),
+    });
+
+    const getUsers = await usersRepository.getAllByUsername('exam');
+
+    expect(getUsers).toEqual(expect.arrayContaining([user, user2]));
+  });
+
   it('Should be able to get a user by id', async () => {
     const user: ICreateUserDTO = {
       email: faker.internet.email(),

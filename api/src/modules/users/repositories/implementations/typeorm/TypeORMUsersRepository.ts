@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Like, Repository } from 'typeorm';
 
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { TypeORMUser } from '@modules/users/entities/implementations/typeorm/TypeORMUser';
@@ -28,12 +28,22 @@ export class TypeORMUsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findByUsername(username: string): Promise<IUser> {
+  async findByUsername(username: string): Promise<TypeORMUser> {
     const user = await this.repository.findOne({
       username,
     });
 
     return user;
+  }
+
+  async getAllByUsername(username: string): Promise<TypeORMUser[]> {
+    const users = await this.repository.find({
+      where: {
+        username: Like(`${username}%`),
+      },
+    });
+
+    return users;
   }
 
   async findById(id: string): Promise<TypeORMUser> {
@@ -42,7 +52,7 @@ export class TypeORMUsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findByIds(ids: string[]): Promise<IUser[]> {
+  async findByIds(ids: string[]): Promise<TypeORMUser[]> {
     const users = this.repository.findByIds(ids);
 
     return users;
