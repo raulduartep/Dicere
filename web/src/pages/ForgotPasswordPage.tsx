@@ -19,7 +19,7 @@ export const ForgotPasswordPage = (): JSX.Element => {
   });
   useEffect(() => {
     if (stateFetch.status === RequestStatus.fetched) {
-      toast.success('Senha resetada com sucesso.');
+      toast.success('Check seu email e siga as instruções por lá.');
     }
 
     if (stateFetch.status === RequestStatus.error) {

@@ -80,7 +80,7 @@ export class SendForgotPasswordUseCase {
       expiresIn: expiresInDate,
     });
 
-    const forgotPasswordAccessToken = this.tokemManagerProvider.sign({
+    const forgotPasswordAccessToken = await this.tokemManagerProvider.sign({
       expiresIn: forgotPasswordConfig.expiresIn,
       payload: {
         forgotPasswordId: forgotPassword.id,
