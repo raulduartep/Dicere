@@ -1,6 +1,7 @@
 import { container, inject, injectable } from 'tsyringe';
 
 import { GoogleOAuthProvider } from '@shared/providers/OAuthProvider/implementations/GoogleOAuthProvider';
+import { GenerateUsername } from '@shared/utils/generateUsername';
 
 import { IUserMap, UserMap } from '@modules/users/mappers/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -43,10 +44,15 @@ export class AuthenticateUserWithGoogleUseCase {
     let user = await this.usersRepository.findByEmail(googleUserProfile.email);
 
     if (!user) {
+      const generateUsername = container.resolve(GenerateUsername);
+
+      const username = await generateUsername.execute(googleUserProfile.name);
+
       user = await this.usersRepository.create({
         email: googleUserProfile.email,
         name: googleUserProfile.name,
         picture: googleUserProfile.pictureUrl,
+        username,
       });
     }
 

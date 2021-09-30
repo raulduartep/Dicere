@@ -25,6 +25,7 @@ describe('Authenticate User Use Case', () => {
 
     const user = await usersRepository.create({
       email: faker.internet.email(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
       password: await encoderProvider.encode(plainPassword),
     });
@@ -63,6 +64,7 @@ describe('Authenticate User Use Case', () => {
 
     const user = await usersRepository.create({
       email: faker.internet.email(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
       password: await encoderProvider.encode(plainPassword),
     });

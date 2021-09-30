@@ -84,6 +84,7 @@ export class VerifyUserUseCase {
       email: userRequest.email,
       name: userRequest.name,
       password: userRequest.password,
+      username: userRequest.username,
       createdAt: userRequest.createdAt,
     });
 

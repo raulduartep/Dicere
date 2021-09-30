@@ -26,6 +26,7 @@ describe('TypeORM Users Repository', () => {
     const user: ICreateUserDTO = {
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     };
 
@@ -48,6 +49,7 @@ describe('TypeORM Users Repository', () => {
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
     expect(user).toBeTruthy();
@@ -58,6 +60,7 @@ describe('TypeORM Users Repository', () => {
     const user: ICreateUserDTO = {
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     };
 
@@ -69,10 +72,27 @@ describe('TypeORM Users Repository', () => {
     expect(getUser).toEqual(createdUser);
   });
 
+  it('Should be able to get a user by username', async () => {
+    const user: ICreateUserDTO = {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      username: faker.internet.userName(),
+      name: faker.name.findName(),
+    };
+
+    const createdUser = await usersRepository.create(user);
+
+    const getUser = await usersRepository.findByUsername(user.username);
+
+    expect(getUser).toBeTruthy();
+    expect(getUser).toEqual(createdUser);
+  });
+
   it('Should be able to get a user by id', async () => {
     const user: ICreateUserDTO = {
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     };
 
@@ -88,12 +108,14 @@ describe('TypeORM Users Repository', () => {
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -106,6 +128,7 @@ describe('TypeORM Users Repository', () => {
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 

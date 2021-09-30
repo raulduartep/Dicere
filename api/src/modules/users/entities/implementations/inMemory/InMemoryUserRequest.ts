@@ -7,6 +7,7 @@ export class InMemoryUserRequest implements IUserRequest {
   name: string;
   email: string;
   password: string;
+  username: string;
   createdAt: Date;
 
   constructor(

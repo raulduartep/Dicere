@@ -7,5 +7,7 @@ export interface IUserRequest {
 
   password: string;
 
+  username: string;
+
   createdAt: Date;
 }

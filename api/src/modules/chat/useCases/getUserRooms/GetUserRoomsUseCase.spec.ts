@@ -40,6 +40,7 @@ describe('Join Room Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await inMemoryRoomsRepository.create({
@@ -98,6 +99,7 @@ describe('Join Room Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await inMemoryRoomsRepository.create({

@@ -22,6 +22,7 @@ describe('Create IoConnection Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const ioConnection = {
@@ -60,6 +61,7 @@ describe('Create IoConnection Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const ioConnection = {

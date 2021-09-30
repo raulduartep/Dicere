@@ -27,12 +27,14 @@ describe('Create Friend Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const userFriend = await createFriendshipRequestUseCase.execute({
@@ -61,6 +63,7 @@ describe('Create Friend Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     await expect(
@@ -76,6 +79,7 @@ describe('Create Friend Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     await expect(
@@ -91,6 +95,7 @@ describe('Create Friend Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     await expect(
@@ -106,11 +111,13 @@ describe('Create Friend Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     await createFriendshipRequestUseCase.execute({
@@ -131,12 +138,14 @@ describe('Create Friend Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friendshipRequest = await createFriendshipRequestUseCase.execute({

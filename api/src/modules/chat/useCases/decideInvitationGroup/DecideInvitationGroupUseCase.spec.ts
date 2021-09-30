@@ -40,12 +40,14 @@ describe('DecideInvitationGroupUseCase', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({
@@ -98,12 +100,14 @@ describe('DecideInvitationGroupUseCase', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({
@@ -141,12 +145,14 @@ describe('DecideInvitationGroupUseCase', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({
@@ -180,18 +186,21 @@ describe('DecideInvitationGroupUseCase', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const anotherUser = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({
@@ -229,12 +238,14 @@ describe('DecideInvitationGroupUseCase', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({
@@ -280,12 +291,14 @@ describe('DecideInvitationGroupUseCase', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({

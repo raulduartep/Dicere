@@ -15,6 +15,9 @@ export class TypeORMUserRequest implements IUserRequest {
   email: string;
 
   @Column('varchar')
+  username: string;
+
+  @Column('varchar')
   password: string;
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })

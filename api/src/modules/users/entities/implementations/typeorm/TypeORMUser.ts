@@ -21,6 +21,9 @@ export class TypeORMUser implements IUser {
   picture: string;
 
   @Column('varchar', { unique: true })
+  username: string;
+
+  @Column('varchar', { unique: true })
   email: string;
 
   @Column('varchar', { nullable: true })

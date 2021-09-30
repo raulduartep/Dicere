@@ -42,6 +42,7 @@ describe('Create User Request Use Case', () => {
         id: expect.any(String),
         email: userRequest.email,
         name: userRequest.name,
+        username: expect.any(String),
         createdAt: expect.any(Date),
       })
     );
@@ -88,6 +89,7 @@ describe('Create User Request Use Case', () => {
       email: sameEmail,
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     await expect(

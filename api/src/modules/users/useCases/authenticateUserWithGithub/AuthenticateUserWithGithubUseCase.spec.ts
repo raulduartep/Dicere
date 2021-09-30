@@ -25,6 +25,7 @@ describe('Authenticate User With Github Use Case', () => {
     const user = await usersRepository.create({
       email: 'raul@gmail.com',
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 

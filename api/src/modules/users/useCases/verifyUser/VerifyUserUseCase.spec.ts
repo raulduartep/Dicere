@@ -42,6 +42,7 @@ describe('Send Forgot Password Mail', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const token = faker.datatype.uuid();
@@ -74,6 +75,7 @@ describe('Send Forgot Password Mail', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const token = faker.datatype.uuid();
@@ -106,6 +108,7 @@ describe('Send Forgot Password Mail', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const token = faker.datatype.uuid();
@@ -140,6 +143,7 @@ describe('Send Forgot Password Mail', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const token = faker.datatype.uuid();
@@ -172,6 +176,7 @@ describe('Send Forgot Password Mail', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const token = faker.datatype.uuid();
@@ -206,6 +211,7 @@ describe('Send Forgot Password Mail', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const token = faker.datatype.uuid();

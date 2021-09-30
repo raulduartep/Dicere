@@ -29,12 +29,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -59,12 +61,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -103,12 +107,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -137,12 +143,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -166,12 +174,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -200,12 +210,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -226,12 +238,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -257,12 +271,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -289,12 +305,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -314,12 +332,14 @@ describe('TypeORM Friendships Repository', () => {
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 

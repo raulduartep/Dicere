@@ -5,7 +5,7 @@ export type IFriendshipRequestMap = {
   id: string;
 };
 
-export class FrienshipRequestMap {
+export class FriendshipRequestMap {
   static map({ createdAt, id }: IFriendshipRequest): IFriendshipRequestMap {
     return {
       createdAt,
@@ -15,7 +15,7 @@ export class FrienshipRequestMap {
 
   static mapMany(friensdhips: IFriendshipRequest[]): IFriendshipRequestMap[] {
     const friendshipsMap = friensdhips.map(friendship =>
-      FrienshipRequestMap.map(friendship)
+      FriendshipRequestMap.map(friendship)
     );
 
     return friendshipsMap;

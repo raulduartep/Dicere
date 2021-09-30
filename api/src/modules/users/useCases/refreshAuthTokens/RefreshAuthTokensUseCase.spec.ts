@@ -33,6 +33,7 @@ describe('Refresh Auth Tokens Use Case', () => {
       email: faker.internet.email(),
       name: faker.name.findName(),
       password: hashPassword,
+      username: faker.internet.userName(),
     });
 
     const authentication = await authenticateUserUseCase.execute({
@@ -61,6 +62,7 @@ describe('Refresh Auth Tokens Use Case', () => {
       email: faker.internet.email(),
       name: faker.name.findName(),
       password: hashPassword,
+      username: faker.internet.userName(),
     });
 
     const authentication = await authenticateUserUseCase.execute({

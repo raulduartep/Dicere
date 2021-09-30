@@ -28,6 +28,14 @@ export class TypeORMUsersRepository implements IUsersRepository {
     return user;
   }
 
+  async findByUsername(username: string): Promise<IUser> {
+    const user = await this.repository.findOne({
+      username,
+    });
+
+    return user;
+  }
+
   async findById(id: string): Promise<TypeORMUser> {
     const user = await this.repository.findOne(id);
 

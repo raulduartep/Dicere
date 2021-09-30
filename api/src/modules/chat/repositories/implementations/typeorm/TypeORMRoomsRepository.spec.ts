@@ -52,6 +52,7 @@ describe('TypeORM Rooms Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room: ICreateRoomDTO = {

@@ -1,6 +1,7 @@
 import { container, inject, injectable } from 'tsyringe';
 
 import { GithubOAuthProvider } from '@shared/providers/OAuthProvider/implementations/GithubOAuthProvider';
+import { GenerateUsername } from '@shared/utils/generateUsername';
 
 import { IUserMap, UserMap } from '@modules/users/mappers/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -43,10 +44,15 @@ export class AuthenticateUserWithGithubUseCase {
     let user = await this.usersRepository.findByEmail(githubUserProfile.email);
 
     if (!user) {
+      const generateUsername = container.resolve(GenerateUsername);
+
+      const username = await generateUsername.execute(githubUserProfile.name);
+
       user = await this.usersRepository.create({
         email: githubUserProfile.email,
         name: githubUserProfile.name,
         picture: githubUserProfile.pictureUrl,
+        username,
       });
     }
 

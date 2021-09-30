@@ -6,4 +6,10 @@ export namespace CreateUserRequestError {
       super('User with the informed email already exists');
     }
   }
+
+  export class UsernameAlreadyExists extends AppError {
+    constructor() {
+      super('User with the informed username already exists');
+    }
+  }
 }

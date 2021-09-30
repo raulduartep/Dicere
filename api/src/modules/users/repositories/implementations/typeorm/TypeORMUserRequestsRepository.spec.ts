@@ -27,6 +27,7 @@ describe('TypeORM Users Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     };
 
     const createdUserRequest = await userRequestsRepository.create(userRequest);
@@ -48,6 +49,7 @@ describe('TypeORM Users Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const getUserRequest = await userRequestsRepository.findById(

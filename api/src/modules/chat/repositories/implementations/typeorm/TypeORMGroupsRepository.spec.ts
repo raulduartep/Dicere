@@ -35,6 +35,7 @@ describe('TypeORM Groups Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({
@@ -65,6 +66,7 @@ describe('TypeORM Groups Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({
@@ -88,6 +90,7 @@ describe('TypeORM Groups Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const room = await roomsRepository.create({

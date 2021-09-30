@@ -2,6 +2,7 @@ import '@shared/container/test';
 import faker from 'faker';
 import { container } from 'tsyringe';
 
+import { FriendshipRequestMap } from '@modules/users/mappers/FriendshipRequestMap';
 import { UserMap } from '@modules/users/mappers/UserMap';
 import { IFriendshipsRepository } from '@modules/users/repositories/IFriendshipsRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -27,24 +28,28 @@ describe('Get Pendings Friendships Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const user1 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const user2 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const user3 = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friendshipRequest = await friendshipsRepository.createRequest({
@@ -68,11 +73,20 @@ describe('Get Pendings Friendships Use Case', () => {
 
     expect(pendingsFriendships).toEqual({
       receivedPendingsFriendships: expect.arrayContaining([
-        { friend: UserMap.mapForPublic(user3), friendship: friendshipRequest3 },
+        {
+          friend: UserMap.mapForPublic(user3),
+          friendshipRequest: FriendshipRequestMap.map(friendshipRequest3),
+        },
       ]),
       sentPendingsFriendships: expect.arrayContaining([
-        { friend: UserMap.mapForPublic(user1), friendship: friendshipRequest },
-        { friend: UserMap.mapForPublic(user2), friendship: friendshipRequest2 },
+        {
+          friend: UserMap.mapForPublic(user1),
+          friendshipRequest: FriendshipRequestMap.map(friendshipRequest),
+        },
+        {
+          friend: UserMap.mapForPublic(user2),
+          friendshipRequest: FriendshipRequestMap.map(friendshipRequest2),
+        },
       ]),
     });
   });

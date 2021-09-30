@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import {
-  FrienshipRequestMap,
+  FriendshipRequestMap,
   IFriendshipRequestMap,
 } from '@modules/users/mappers/FriendshipRequestMap';
 import { IUserMapForPublic, UserMap } from '@modules/users/mappers/UserMap';
@@ -53,7 +53,7 @@ export class GetPendingsFriendshipsUseCase {
 
         return {
           friend: UserMap.mapForPublic(friend),
-          friendshipRequest: FrienshipRequestMap.map(friendshipRequest),
+          friendshipRequest: FriendshipRequestMap.map(friendshipRequest),
         };
       })
     );
@@ -70,7 +70,7 @@ export class GetPendingsFriendshipsUseCase {
 
         return {
           friend: UserMap.mapForPublic(friend),
-          friendshipRequest: FrienshipRequestMap.map(friendshipRequest),
+          friendshipRequest: FriendshipRequestMap.map(friendshipRequest),
         };
       })
     );

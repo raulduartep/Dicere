@@ -21,6 +21,7 @@ describe('Create Group Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const group = {
@@ -33,7 +34,6 @@ describe('Create Group Use Case', () => {
     expect(createdGroup).toEqual({
       room: expect.objectContaining({
         id: expect.any(String),
-        adminId: user.id,
         type: IRoomTypeEnum.GROUP,
         name: group.name,
         createdAt: expect.any(Date),

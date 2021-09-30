@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IEnumDecisionInvitationGroup } from '@modules/chat/entities/IInvitationGroup';
 import { IMessageMap, MessageMap } from '@modules/chat/mappers/MessageMap';
-import { IRoomGroupMap, RoomMap } from '@modules/chat/mappers/RoomMap';
+import { RoomMap, IRoomMap } from '@modules/chat/mappers/RoomMap';
 import { IGroupsRepository } from '@modules/chat/repositories/IGroupsRepository';
 import { IInvitationsGroupsRepository } from '@modules/chat/repositories/IInvitationsGroupsRepository';
 import { IMessagesRepository } from '@modules/chat/repositories/IMessagesRepository';
@@ -24,7 +24,7 @@ type IRequest = {
 type IResponse = {
   friendConnection: IIoConnection;
   room: {
-    room: IRoomGroupMap;
+    room: IRoomMap;
     lastMessages: IMessageMap[];
     usersIn: IUserMapForPublic[];
   };

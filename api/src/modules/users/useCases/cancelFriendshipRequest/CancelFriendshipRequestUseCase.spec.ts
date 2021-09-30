@@ -27,12 +27,14 @@ describe('Cancel Friendship Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friendshipRequest = await friendshipsRepository.createRequest({
@@ -53,12 +55,14 @@ describe('Cancel Friendship Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friendshipRequest = await friendshipsRepository.createRequest({
@@ -79,6 +83,7 @@ describe('Cancel Friendship Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     await expect(
@@ -96,12 +101,14 @@ describe('Cancel Friendship Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friendshipRequest = await friendshipsRepository.createRequest({
@@ -129,12 +136,14 @@ describe('Cancel Friendship Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friendshipRequest = await friendshipsRepository.createRequest({
@@ -159,18 +168,21 @@ describe('Cancel Friendship Request Use Case', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const anotherUser = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friend = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const friendshipRequest = await friendshipsRepository.createRequest({

@@ -11,6 +11,8 @@ export class InMemoryUser implements IUser {
 
   password: string;
 
+  username: string;
+
   deleted: boolean;
 
   picture: string;

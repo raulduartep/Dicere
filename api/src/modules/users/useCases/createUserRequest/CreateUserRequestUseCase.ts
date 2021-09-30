@@ -1,11 +1,12 @@
 import crypto from 'crypto';
-import { inject, injectable } from 'tsyringe';
+import { container, inject, injectable } from 'tsyringe';
 
 import { IDateProvider } from '@shared/providers/DateProvider/IDateProvider';
 import { IEncoderProvider } from '@shared/providers/EncoderProvider/IEncoderProvider';
 import { IHTMLProvider } from '@shared/providers/HTMLProvider/IHTMLProvider';
 import { IMailProvider } from '@shared/providers/MailProvider/IMailProvider';
 import { ITokenManagerProvider } from '@shared/providers/TokenManagerProvider/ITokenManagerProvider';
+import { GenerateUsername } from '@shared/utils/generateUsername';
 import {
   verificationUserEmailConfig,
   VerificationUserVariables,
@@ -70,10 +71,15 @@ export class CreateUserRequestUseCase {
 
     const hashedPassword = await this.encoderProvider.encode(password);
 
+    const generateUsername = container.resolve(GenerateUsername);
+
+    const username = await generateUsername.execute(name);
+
     const userRequest = await this.userRequestsRepository.create({
       name,
       email,
       password: hashedPassword,
+      username,
     });
 
     const verificationUserToken = crypto.randomBytes(32).toString('hex');

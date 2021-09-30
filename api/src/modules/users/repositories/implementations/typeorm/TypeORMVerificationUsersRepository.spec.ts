@@ -34,6 +34,7 @@ describe('TypeORM Verification Users Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const verificationUser: ICreateVerificationUserDTO = {
@@ -63,6 +64,7 @@ describe('TypeORM Verification Users Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const verificationUser = await verificationUsersRepository.create({
@@ -84,6 +86,7 @@ describe('TypeORM Verification Users Repository', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.name.findName(),
+      username: faker.internet.userName(),
     });
 
     const verificationUser = await verificationUsersRepository.create({

@@ -30,6 +30,7 @@ describe('TypeORM Forgot Password Repository', () => {
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -59,6 +60,7 @@ describe('TypeORM Forgot Password Repository', () => {
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -80,6 +82,7 @@ describe('TypeORM Forgot Password Repository', () => {
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
@@ -101,6 +104,7 @@ describe('TypeORM Forgot Password Repository', () => {
     const user = await usersRepository.create({
       email: faker.internet.email(),
       password: faker.internet.password(),
+      username: faker.internet.userName(),
       name: faker.name.findName(),
     });
 
