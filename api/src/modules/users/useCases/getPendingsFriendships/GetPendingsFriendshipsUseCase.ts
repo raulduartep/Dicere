@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { IFriendshipRequest } from '@modules/users/entities/IFriendshipRequest';
 import {
   FrienshipRequestMap,
   IFriendshipRequestMap,
