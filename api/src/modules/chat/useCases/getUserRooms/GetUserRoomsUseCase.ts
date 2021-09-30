@@ -1,11 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IMessageMap, MessageMap } from '@modules/chat/mappers/MessageMap';
-import {
-  IRoomGroupMap,
-  IRoomMap,
-  RoomMap,
-} from '@modules/chat/mappers/RoomMap';
+import { IRoomMap, RoomMap } from '@modules/chat/mappers/RoomMap';
 import { IGroupsRepository } from '@modules/chat/repositories/IGroupsRepository';
 import { IMessagesRepository } from '@modules/chat/repositories/IMessagesRepository';
 import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
@@ -19,7 +15,7 @@ type IRequest = {
 };
 
 export type IResponse = {
-  room: IRoomMap | IRoomGroupMap;
+  room: IRoomMap;
   lastMessage: IMessageMap;
 };
 

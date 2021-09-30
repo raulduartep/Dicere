@@ -25,18 +25,22 @@ export async function ensureAuthenticate(
 
   const { accessTokenSecret } = authConfig;
 
-  const { userId } = await tokenManagerProvider.verify<{ userId: string }>({
-    secret: accessTokenSecret,
-    token,
-  });
+  try {
+    const { userId } = await tokenManagerProvider.verify<{ userId: string }>({
+      secret: accessTokenSecret,
+      token,
+    });
 
-  if (!userId) {
+    if (!userId) {
+      throw new JWTError.JWTTokenInvalid();
+    }
+
+    request.user = {
+      id: userId,
+    };
+
+    return next();
+  } catch (error) {
     throw new JWTError.JWTTokenInvalid();
   }
-
-  request.user = {
-    id: userId,
-  };
-
-  return next();
 }

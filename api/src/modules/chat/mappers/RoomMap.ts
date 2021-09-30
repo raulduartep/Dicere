@@ -12,10 +12,6 @@ export type IRoomMap = {
   picture: string;
 };
 
-export type IRoomGroupMap = {
-  adminId: string;
-} & IRoomMap;
-
 export class RoomMap {
   static mapPrivate(
     { id, typeConversation, createdAt, updatedAt }: IRoom,
@@ -33,8 +29,8 @@ export class RoomMap {
 
   static mapGroup(
     { id, typeConversation, createdAt, updatedAt }: IRoom,
-    { name, adminId }: IGroup
-  ): IRoomGroupMap {
+    { name }: IGroup
+  ): IRoomMap {
     return {
       id,
       createdAt,
@@ -42,7 +38,6 @@ export class RoomMap {
       type: typeConversation,
       name,
       picture: '',
-      adminId,
     };
   }
 }

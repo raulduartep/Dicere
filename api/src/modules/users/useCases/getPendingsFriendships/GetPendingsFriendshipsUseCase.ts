@@ -1,6 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IFriendshipRequest } from '@modules/users/entities/IFriendshipRequest';
+import {
+  FrienshipRequestMap,
+  IFriendshipRequestMap,
+} from '@modules/users/mappers/FriendshipRequestMap';
 import { IUserMapForPublic, UserMap } from '@modules/users/mappers/UserMap';
 import { IFriendshipsRepository } from '@modules/users/repositories/IFriendshipsRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -9,7 +13,7 @@ import { GetPendingsFriendshipsError } from './GetPendingsFriendshipsError';
 
 type PendingsFriendshipWithFriend = {
   friend: IUserMapForPublic;
-  friendship: IFriendshipRequest;
+  friendshipRequest: IFriendshipRequestMap;
 };
 
 type IRequest = {
@@ -43,12 +47,14 @@ export class GetPendingsFriendshipsUseCase {
     );
 
     const sentPendingsFriendshipsWithUsers = await Promise.all(
-      sentPendingsFriendships.map(async friendship => {
-        const friend = await this.usersRepository.findById(friendship.friendId);
+      sentPendingsFriendships.map(async friendshipRequest => {
+        const friend = await this.usersRepository.findById(
+          friendshipRequest.friendId
+        );
 
         return {
           friend: UserMap.mapForPublic(friend),
-          friendship,
+          friendshipRequest: FrienshipRequestMap.map(friendshipRequest),
         };
       })
     );
@@ -58,12 +64,14 @@ export class GetPendingsFriendshipsUseCase {
     );
 
     const receivedPendingsFriendshipsWithUser = await Promise.all(
-      receivedPendingsFriendships.map(async friendship => {
-        const friend = await this.usersRepository.findById(friendship.userId);
+      receivedPendingsFriendships.map(async friendshipRequest => {
+        const friend = await this.usersRepository.findById(
+          friendshipRequest.userId
+        );
 
         return {
           friend: UserMap.mapForPublic(friend),
-          friendship,
+          friendshipRequest: FrienshipRequestMap.map(friendshipRequest),
         };
       })
     );

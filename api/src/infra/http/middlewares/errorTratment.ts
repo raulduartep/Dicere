@@ -9,13 +9,13 @@ export function errorTratment(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ): Response {
+  console.log(error);
+
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
       message: error.message,
     });
   }
-
-  console.error(error);
 
   return response.status(500).json({
     status: 'error',

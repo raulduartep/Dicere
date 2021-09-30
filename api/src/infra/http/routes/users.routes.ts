@@ -37,7 +37,7 @@ usersRouter.get(
 );
 
 usersRouter.get(
-  '/frienships/pendings',
+  '/friendships/pendings',
   ensureAuthenticate,
   getPendingsFriendshipsController.handle
 );
