@@ -14,6 +14,12 @@ type ParamsVerifyAccount = {
 
 export const VerifyAccountPage = (): JSX.Element => {
   const { token, access_token: accessToken } = useQuery<ParamsVerifyAccount>();
+
+  console.log({
+    token,
+    accessToken,
+  });
+
   const history = useHistory();
   const stateFetch = useEagerFetch({
     endpoint: '/users/verify',
@@ -22,7 +28,7 @@ export const VerifyAccountPage = (): JSX.Element => {
       method: 'POST',
       params: {
         token,
-        accessToken,
+        access_token: accessToken,
       },
     },
   });
