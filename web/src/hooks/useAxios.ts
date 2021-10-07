@@ -9,14 +9,12 @@ interface FetchOptions {
 }
 
 export class FetchError extends Error {
-  readonly message: string;
-
   readonly statusCode: number;
 
   constructor(message: string, statusCode: number) {
     super(message);
     this.statusCode = statusCode;
-    this.message = 'FetchError';
+    this.name = 'FetchError';
   }
 }
 
@@ -106,9 +104,9 @@ export function useAxios({ withAuth }: FetchOptions) {
 
         return response;
       } catch (error) {
-        if (axios.isAxiosError(error) && withAuth) {
+        if (axios.isAxiosError(error)) {
           if (error.response) {
-            if (error.response.status === 401) {
+            if (error.response.status === 401 && withAuth) {
               try {
                 await refreshTokens();
                 await retryRequest(url, axiosOptions);

@@ -70,6 +70,12 @@ export const LoginPage = (): JSX.Element => {
     handleData();
   }, [setStoragedRememberAuth, signIn, stateSignIn]);
 
+  useEffect(() => {
+    if (stateSignIn.status === RequestStatus.error) {
+      toast.error(stateSignIn.error);
+    }
+  }, [stateSignIn]);
+
   if (isSigned) {
     return <Redirect to={locationRef.current.from} />;
   }
