@@ -1,3 +1,5 @@
+import { IUserMapForPublic } from '@modules/users/mappers/UserMap';
+
 import { IMessageTypeEnum } from '../entities/IMessage';
 import {
   IMessageMedia,
@@ -20,26 +22,24 @@ type IMessageMediaMap = {
 
 export type IMessageMap = {
   id: string;
-  creatorUserId: string;
+  user: IUserMapForPublic;
   createdAt: Date;
-  updatedAt: Date;
   statusByUser: { userId: string; status: IMessageStatusEnum }[];
-  roomId: string;
 } & (IMessageTextMap | IMessageMediaMap);
 
 export class MessageMap {
-  static map({
-    message,
-    messageContent,
-    messageUserStatus,
-    roomMessage,
-  }: IMessageResponse<IMessageMedia | IMessageText>): IMessageMap {
+  static map(
+    {
+      message,
+      messageContent,
+      messageUserStatus,
+    }: IMessageResponse<IMessageMedia | IMessageText>,
+    user: IUserMapForPublic
+  ): IMessageMap {
     const messageMap = {
       id: message.id,
-      creatorUserId: message.userId,
+      user,
       createdAt: message.createdAt,
-      updatedAt: message.updatedAt,
-      roomId: roomMessage.roomId,
       statusByUser: messageUserStatus.map(messageStatus => ({
         userId: messageStatus.userId,
         status: messageStatus.status,
@@ -67,9 +67,14 @@ export class MessageMap {
   }
 
   static mapMany(
-    messages: IMessageResponse<IMessageMedia | IMessageText>[]
+    messages: {
+      message: IMessageResponse<IMessageMedia | IMessageText>;
+      user: IUserMapForPublic;
+    }[]
   ): IMessageMap[] {
-    const messagesMap = messages.map(message => MessageMap.map(message));
+    const messagesMap = messages.map(({ message, user }) =>
+      MessageMap.map(message, user)
+    );
 
     return messagesMap;
   }

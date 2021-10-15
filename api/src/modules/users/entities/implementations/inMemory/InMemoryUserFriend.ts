@@ -5,6 +5,8 @@ export class InMemoryUserFriend implements IUserFriend {
 
   friendId: string;
 
+  roomId: string;
+
   createdAt: Date;
 
   constructor(props: Omit<InMemoryUserFriend, 'createdAt'>) {

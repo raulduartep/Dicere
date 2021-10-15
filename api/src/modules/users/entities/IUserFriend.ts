@@ -3,5 +3,7 @@ export interface IUserFriend {
 
   friendId: string;
 
+  roomId: string;
+
   createdAt: Date;
 }

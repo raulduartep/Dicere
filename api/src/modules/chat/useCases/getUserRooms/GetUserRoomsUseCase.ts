@@ -6,6 +6,7 @@ import { IGroupsRepository } from '@modules/chat/repositories/IGroupsRepository'
 import { IMessagesRepository } from '@modules/chat/repositories/IMessagesRepository';
 import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
 import { IRoomsUsersRepository } from '@modules/chat/repositories/IRoomsUsersRepository';
+import { UserMap } from '@modules/users/mappers/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
 import { GetUserRoomsError } from './GetUserRoomsError';
@@ -54,13 +55,24 @@ export class GetUserRoomsUseCase {
         const lastMessage = await this.messagesRepository.getLastByRoomId(
           room.id
         );
+        let lastMessageMap: IMessageMap;
+
+        if (lastMessage) {
+          const lastMessageUser = await this.usersRepository.findById(
+            lastMessage.message.userId
+          );
+
+          const lastMessageUserMap = UserMap.mapForPublic(lastMessageUser);
+
+          lastMessageMap = MessageMap.map(lastMessage, lastMessageUserMap);
+        }
 
         if (room.typeConversation === 'group') {
           const group = await this.groupsRepository.findByRoomId(room.id);
 
           return {
             room: RoomMap.mapGroup(room, group),
-            lastMessage: lastMessage && MessageMap.map(lastMessage),
+            lastMessage: lastMessageMap,
           };
         }
 
@@ -78,7 +90,7 @@ export class GetUserRoomsUseCase {
 
         return {
           room: RoomMap.mapPrivate(room, anotherUser),
-          lastMessage: lastMessage && MessageMap.map(lastMessage),
+          lastMessage: lastMessageMap,
         };
       })
     );

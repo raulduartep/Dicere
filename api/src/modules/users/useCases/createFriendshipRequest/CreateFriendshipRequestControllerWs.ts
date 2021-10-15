@@ -16,20 +16,24 @@ export class CreateFriendshipRequestControllerWs {
       );
       const {
         friendConnection,
-        ...friendshipRequest
+        user,
+        friendshipRequest,
       } = await createFriendshipRequestUseCase.execute({
-        friendId,
+        friendId: String(friendId),
         userId,
       });
 
       if (friendConnection) {
         socket.to(friendConnection.socketId).emit('server:newFriendRequest', {
-          user: friendshipRequest.user,
-          friendshipRequest: friendshipRequest.friendshipRequest,
+          friend: user,
+          friendshipRequest,
         });
       }
 
-      callback(null);
+      callback(null, {
+        friendshipRequest,
+        user,
+      });
     } catch (error) {
       callback(error);
     }

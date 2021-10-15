@@ -4,7 +4,8 @@ import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
 const generateUsername = (name: string) => {
   const username =
-    name.trim().replace(' ', '') + Math.floor(Math.random() * 100 + 1);
+    name.toLowerCase().trim().replace(' ', '') +
+    Math.floor(Math.random() * 100 + 1);
 
   return username;
 };

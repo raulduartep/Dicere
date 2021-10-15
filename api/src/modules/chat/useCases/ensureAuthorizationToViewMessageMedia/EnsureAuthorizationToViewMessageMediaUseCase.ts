@@ -1,11 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IMessagesRepository } from '@modules/chat/repositories/IMessagesRepository';
-import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
 import { IRoomsUsersRepository } from '@modules/chat/repositories/IRoomsUsersRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
-import { EnsureAuthorizationToViewMediaError } from './EnsureAuthorizationToViewMediaError';
+import { EnsureAuthorizationToViewMessageMediaError } from './EnsureAuthorizationToViewMessageMediaError';
 
 type IRequest = {
   mediaPath: string;
@@ -13,7 +12,7 @@ type IRequest = {
 };
 
 @injectable()
-export class EnsureAuthorizationToViewMediaUseCase {
+export class EnsureAuthorizationToViewMessageMediaUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -29,7 +28,7 @@ export class EnsureAuthorizationToViewMediaUseCase {
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {
-      throw new EnsureAuthorizationToViewMediaError.UserDoesNotExist();
+      throw new EnsureAuthorizationToViewMessageMediaError.UserDoesNotExist();
     }
 
     const messagesStats = await this.messagesRepository.findByMediaPath(
@@ -37,7 +36,7 @@ export class EnsureAuthorizationToViewMediaUseCase {
     );
 
     if (!messagesStats) {
-      throw new EnsureAuthorizationToViewMediaError.MediaDoesNotExist();
+      throw new EnsureAuthorizationToViewMessageMediaError.MediaDoesNotExist();
     }
 
     const { roomMessage } = messagesStats;
@@ -51,7 +50,7 @@ export class EnsureAuthorizationToViewMediaUseCase {
     );
 
     if (!userIsAuthorized) {
-      throw new EnsureAuthorizationToViewMediaError.UserNotAuthorized();
+      throw new EnsureAuthorizationToViewMessageMediaError.UserNotAuthorized();
     }
 
     return true;

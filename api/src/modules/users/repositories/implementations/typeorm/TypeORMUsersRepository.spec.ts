@@ -103,9 +103,9 @@ describe('TypeORM Users Repository', () => {
       name: faker.name.findName(),
     });
 
-    const getUsers = await usersRepository.getAllByUsername('exam');
+    const getUsers = await usersRepository.getAllByUsername('exam', user.id);
 
-    expect(getUsers).toEqual(expect.arrayContaining([user, user2]));
+    expect(getUsers).toEqual(expect.arrayContaining([user2]));
   });
 
   it('Should be able to get a user by id', async () => {

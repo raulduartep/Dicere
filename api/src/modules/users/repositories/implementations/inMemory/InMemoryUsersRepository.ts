@@ -27,8 +27,13 @@ export class InMemoryUsersRepository implements IUsersRepository {
     return user;
   }
 
-  async getAllByUsername(username: string): Promise<IUser[]> {
-    const users = this.users.filter(user => user.username.startsWith(username));
+  async getAllByUsername(
+    username: string,
+    currentUserId: string
+  ): Promise<IUser[]> {
+    const users = this.users.filter(
+      user => user.username.startsWith(username) && user.id !== currentUserId
+    );
 
     return users;
   }

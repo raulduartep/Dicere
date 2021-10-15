@@ -35,7 +35,7 @@ export type ICallbackWS = (err: AppError, data?: any) => void;
 type FunctionHandle = (
   request: IRequestWS,
   callback: ICallbackWS
-) => Promise<void>;
+) => Promise<void> | void;
 
 type IUploadFile = {
   name: string;
@@ -95,7 +95,9 @@ export class WebSocketApp {
 
       this.registerSocketInRooms(roomsIds, socket);
 
-      socket.emit('server:allRooms', rooms);
+      this.prepareOn(socket, 'client:getAllRooms', (_request, callback) =>
+        callback(null, rooms)
+      );
 
       this.prepareOn(
         socket,
@@ -215,7 +217,7 @@ export class WebSocketApp {
         filename: data.name,
         content: data.buffer,
       },
-      'media'
+      'medias/messages'
     );
 
     return filePath;

@@ -1,17 +1,33 @@
-import { Router } from 'express';
+import { EnsureAuthorizationToViewMessageMediaControllerHttp } from '@modules/chat/useCases/ensureAuthorizationToViewMessageMedia/EnsureAuthorizationToViewMessageMediaControllerHttp';
+import { Router, static as expressStatic } from 'express';
+import path from 'path';
 
-import { EnsureAuthorizationToViewMediaControllerHttp } from '@modules/chat/useCases/ensureAuthorizationToViewMedia/EnsureAuthorizationToViewMediaControllerHttp';
 
 import { ensureAuthenticate } from '../middlewares/ensureAuthenticate';
 
 const staticRoutes = Router();
 
-const ensureAuthorizationToViewMediaControllerHttp = new EnsureAuthorizationToViewMediaControllerHttp();
+const ensureAuthorizationToViewMessageMediaControllerHttp = new EnsureAuthorizationToViewMessageMediaControllerHttp();
 
 staticRoutes.get(
-  '/:mediaPath',
+  '/medias/messages/:mediaPath',
+  ensureAuthenticate,
+  ensureAuthorizationToViewMessageMediaControllerHttp.handle
+);
+
+staticRoutes.get(
+  '/medias/rooms_pictures/:mediaPath',
   ensureAuthenticate,
   ensureAuthorizationToViewMediaControllerHttp.handle
 );
+
+staticRoutes.use(
+  '/pictures',
+  expressStatic(path.join(process.cwd(), 'static', 'pictures'))
+);
+
+console.log({
+  path: path.join(process.cwd(), 'static', 'pictures'),
+});
 
 export { staticRoutes };

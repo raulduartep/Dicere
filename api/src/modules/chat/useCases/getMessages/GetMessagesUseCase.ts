@@ -6,6 +6,7 @@ import { IMessageMap, MessageMap } from '@modules/chat/mappers/MessageMap';
 import { IMessagesRepository } from '@modules/chat/repositories/IMessagesRepository';
 import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
 import { IRoomsUsersRepository } from '@modules/chat/repositories/IRoomsUsersRepository';
+import { UserMap } from '@modules/users/mappers/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
 import { GetMessagesError } from './GetMessagesError';
@@ -62,6 +63,15 @@ export class GetMessagesUseCase {
       page,
     });
 
-    return MessageMap.mapMany(messages);
+    const messagesUsersId = messages.map(message => message.message.userId);
+
+    const messagesUsers = await this.usersRepository.findByIds(messagesUsersId);
+
+    const messagesWithUsers = messages.map((message, index) => ({
+      message,
+      user: messagesUsers[index],
+    }));
+
+    return MessageMap.mapMany(messagesWithUsers);
   }
 }

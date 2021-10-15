@@ -10,15 +10,15 @@ import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
 import { IRoomsUsersRepository } from '@modules/chat/repositories/IRoomsUsersRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
-import { EnsureAuthorizationToViewMediaError } from './EnsureAuthorizationToViewMediaError';
-import { EnsureAuthorizationToViewMediaUseCase } from './EnsureAuthorizationToViewMediaUseCase';
+import { EnsureAuthorizationToViewMessageMediaError } from './EnsureAuthorizationToViewMessageMediaError';
+import { EnsureAuthorizationToViewMessageMediaUseCase } from './EnsureAuthorizationToViewMessageMediaUseCase';
 
 let usersRepository: IUsersRepository;
 let roomsRepository: IRoomsRepository;
 let roomsUsersRepository: IRoomsUsersRepository;
 let messagesRepository: IMessagesRepository;
 
-let ensureAuthorizationToViewMediaUseCase: EnsureAuthorizationToViewMediaUseCase;
+let ensureAuthorizationToViewMediaUseCase: EnsureAuthorizationToViewMessageMediaUseCase;
 
 describe('Ensure Authorization To View Media Use Case', () => {
   beforeEach(() => {
@@ -27,7 +27,7 @@ describe('Ensure Authorization To View Media Use Case', () => {
     messagesRepository = container.resolve('MessagesRepository');
     roomsUsersRepository = container.resolve('RoomsUsersRepository');
     ensureAuthorizationToViewMediaUseCase = container.resolve(
-      EnsureAuthorizationToViewMediaUseCase
+      EnsureAuthorizationToViewMessageMediaUseCase
     );
   });
 
@@ -115,7 +115,7 @@ describe('Ensure Authorization To View Media Use Case', () => {
         userId: 'nonexistent user',
       })
     ).rejects.toEqual(
-      new EnsureAuthorizationToViewMediaError.UserDoesNotExist()
+      new EnsureAuthorizationToViewMessageMediaError.UserDoesNotExist()
     );
   });
 
@@ -153,7 +153,7 @@ describe('Ensure Authorization To View Media Use Case', () => {
         userId: user.id,
       })
     ).rejects.toEqual(
-      new EnsureAuthorizationToViewMediaError.MediaDoesNotExist()
+      new EnsureAuthorizationToViewMessageMediaError.MediaDoesNotExist()
     );
   });
 
@@ -198,7 +198,7 @@ describe('Ensure Authorization To View Media Use Case', () => {
         userId: user2.id,
       })
     ).rejects.toEqual(
-      new EnsureAuthorizationToViewMediaError.UserNotAuthorized()
+      new EnsureAuthorizationToViewMessageMediaError.UserNotAuthorized()
     );
   });
 });

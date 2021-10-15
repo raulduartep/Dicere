@@ -15,7 +15,7 @@ import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { DecidedFriendRequestError } from './DecideFriendRequestError';
 
 type IRequest = {
-  requestId: string;
+  friendshipRequestId: string;
   userId: string;
   decision: IEnumDecisionFriendshipRequest;
 };
@@ -50,7 +50,11 @@ export class DecideFriendRequestUseCase {
     private roomsUsersRepository: IRoomsUsersRepository
   ) {}
 
-  async execute({ requestId, userId, decision }: IRequest): Promise<IResponse> {
+  async execute({
+    friendshipRequestId,
+    userId,
+    decision,
+  }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {
@@ -58,7 +62,7 @@ export class DecideFriendRequestUseCase {
     }
 
     const friendshipRequest = await this.friendshipsRepository.findRequestById(
-      requestId
+      friendshipRequestId
     );
 
     if (!friendshipRequest) {
@@ -72,11 +76,6 @@ export class DecideFriendRequestUseCase {
     if (friendshipRequest.decision) {
       throw new DecidedFriendRequestError.UserFriendRequestAlreadyDecided();
     }
-
-    await this.friendshipsRepository.decidedFriendRequest({
-      decision,
-      requestId,
-    });
 
     const friendConnection = await this.ioConnectionsRepository.findByUserId(
       friendshipRequest.userId
@@ -101,6 +100,12 @@ export class DecideFriendRequestUseCase {
         userId: friend.id,
       });
 
+      await this.friendshipsRepository.decidedFriendRequest({
+        decision,
+        requestId: friendshipRequestId,
+        roomId: room.id,
+      });
+
       const userMap = UserMap.mapForPublic(user);
       const friendMap = UserMap.mapForPublic(friend);
 
@@ -115,6 +120,11 @@ export class DecideFriendRequestUseCase {
         },
       };
     }
+
+    await this.friendshipsRepository.decidedFriendRequest({
+      decision,
+      requestId: friendshipRequestId,
+    });
 
     return {
       friendConnection,

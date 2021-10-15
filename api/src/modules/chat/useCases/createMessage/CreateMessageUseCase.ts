@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { IMessageTypeEnum } from '@modules/chat/entities/IMessage';
+import { IMessage, IMessageTypeEnum } from '@modules/chat/entities/IMessage';
 import {
   IMessageMedia,
   IMessageMediaTypeEnum,
@@ -13,6 +13,7 @@ import {
 } from '@modules/chat/repositories/IMessagesRepository';
 import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
 import { IRoomsUsersRepository } from '@modules/chat/repositories/IRoomsUsersRepository';
+import { UserMap } from '@modules/users/mappers/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
 import { CreateMessageError } from './CreateMessageError';
@@ -102,6 +103,8 @@ export class CreateMessageUseCase {
       });
     }
 
-    return MessageMap.map(message);
+    const userMap = UserMap.mapForPublic(user);
+
+    return MessageMap.map(message, userMap);
   }
 }

@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import path from 'path';
 import { container } from 'tsyringe';
 
-import { EnsureAuthorizationToViewMediaUseCase } from './EnsureAuthorizationToViewMediaUseCase';
+import { EnsureAuthorizationToViewMediaUseCase } from './EnsureAuthorizationToViewMessageMediaUseCase';
 
-export class EnsureAuthorizationToViewMediaControllerHttp {
+export class EnsureAuthorizationToViewMessageMediaControllerHttp {
   async handle(request: Request, response: Response): Promise<void> {
     const { id: userId } = request.user;
     const { mediaPath } = request.params;

@@ -22,7 +22,7 @@ export class RoomMap {
       createdAt,
       updatedAt,
       type: typeConversation,
-      picture,
+      picture: picture || 'blank-private.png',
       name,
     };
   }
@@ -37,7 +37,7 @@ export class RoomMap {
       updatedAt,
       type: typeConversation,
       name,
-      picture: '',
+      picture: 'blank-group.png',
     };
   }
 }

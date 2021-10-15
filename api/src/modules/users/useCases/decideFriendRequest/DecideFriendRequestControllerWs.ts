@@ -1,13 +1,17 @@
 import { container } from 'tsyringe';
 
 import { ICallbackWS, IRequestWS } from '@infra/websocket/app';
+import { IEnumDecisionFriendshipRequest } from '@modules/users/entities/IFriendshipRequest';
 
 import { DecideFriendRequestUseCase } from './DecideFriendRequestUseCase';
 
 export class DecidedFriendRequestControllerWs {
   async handle(request: IRequestWS, callback: ICallbackWS): Promise<void> {
     const { socket } = request;
-    const { requestId, decision } = request.body;
+    const { friendshipRequestId, decision } = request.body as {
+      friendshipRequestId: string;
+      decision: IEnumDecisionFriendshipRequest;
+    };
     const { id: userId } = socket.user;
     try {
       const decideFriendRequestUseCase = container.resolve(
@@ -19,7 +23,7 @@ export class DecidedFriendRequestControllerWs {
         ...decideFriendRequest
       } = await decideFriendRequestUseCase.execute({
         decision,
-        requestId,
+        friendshipRequestId,
         userId,
       });
 
@@ -28,15 +32,13 @@ export class DecidedFriendRequestControllerWs {
           .to(friendConnection.socketId)
           .emit('server:friendRequestDecision', {
             decision,
-            requestId,
+            friendshipRequestId,
             user: decideFriendRequest.user,
             room: decideFriendRequest.room,
           });
       }
 
       callback(null, {
-        decision,
-        requestId,
         friend: decideFriendRequest.friend,
         room: decideFriendRequest.room,
       });

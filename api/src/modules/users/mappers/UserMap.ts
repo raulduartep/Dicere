@@ -4,6 +4,7 @@ export type IUserMap = {
   id: string;
   email: string;
   name: string;
+  username: string;
   updatedAt: Date;
   createdAt: Date;
   picture: string;
@@ -13,6 +14,7 @@ export type IUserMapForPublic = {
   id: string;
   name: string;
   picture: string;
+  username: string;
 };
 
 export class UserMap {
@@ -23,6 +25,7 @@ export class UserMap {
     email,
     name,
     picture,
+    username,
   }: IUser): IUserMap {
     return {
       id,
@@ -30,15 +33,24 @@ export class UserMap {
       name,
       createdAt,
       updatedAt,
-      picture,
+      picture: `${process.env.SERVER_URL}/static/pictures/${
+        picture || 'blank.png'
+      }`,
+      username,
     };
   }
 
-  static mapForPublic({ id, name, picture }: IUser): IUserMapForPublic {
+  static mapForPublic({
+    id,
+    name,
+    picture,
+    username,
+  }: IUser): IUserMapForPublic {
     return {
       id,
       name,
       picture,
+      username,
     };
   }
 

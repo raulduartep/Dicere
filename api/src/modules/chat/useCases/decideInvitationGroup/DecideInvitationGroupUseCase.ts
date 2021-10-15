@@ -9,7 +9,7 @@ import { IMessagesRepository } from '@modules/chat/repositories/IMessagesReposit
 import { IRoomsRepository } from '@modules/chat/repositories/IRoomsRepository';
 import { IRoomsUsersRepository } from '@modules/chat/repositories/IRoomsUsersRepository';
 import { IIoConnection } from '@modules/users/entities/IIoConnection';
-import { IUserMapForPublic, UserMap } from '@modules/users/mappers/UserMap';
+import { UserMap } from '@modules/users/mappers/UserMap';
 import { IIoConnectionsRepository } from '@modules/users/repositories/IIoConnectionsRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
@@ -25,8 +25,7 @@ type IResponse = {
   friendConnection: IIoConnection;
   room: {
     room: IRoomMap;
-    lastMessages: IMessageMap[];
-    usersIn: IUserMapForPublic[];
+    lastMessage: IMessageMap;
   };
 };
 
@@ -112,23 +111,25 @@ export class DecideInvitationGroupUseCase {
 
       const room = await this.roomsRepository.findById(group.roomId);
 
-      const lastMessages = await this.messagesRepository.getByRoomId({
-        roomId: room.id,
-        page: 1,
-      });
+      const lastMessage = await this.messagesRepository.getLastByRoomId(
+        room.id
+      );
+      let lastMessageMap: IMessageMap;
 
-      const usersInIds = (
-        await this.roomsUsersRepository.getByRoomId(room.id)
-      ).map(roomUser => roomUser.userId);
+      if (lastMessageMap) {
+        const lastMessageUser = await this.usersRepository.findById(
+          lastMessage.message.userId
+        );
+        const lastMessageUserMap = UserMap.mapForPublic(lastMessageUser);
 
-      const usersIn = await this.usersRepository.findByIds(usersInIds);
+        lastMessageMap = MessageMap.map(lastMessage, lastMessageUserMap);
+      }
 
       return {
         friendConnection,
         room: {
           room: RoomMap.mapGroup(room, group),
-          lastMessages: MessageMap.mapMany(lastMessages),
-          usersIn: UserMap.mapManyForPublic(usersIn),
+          lastMessage: lastMessageMap,
         },
       };
     }

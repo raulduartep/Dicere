@@ -17,6 +17,10 @@ export class createUsersFriends1623540475128 implements MigrationInterface {
             isPrimary: true,
           },
           {
+            name: 'room_id',
+            type: 'uuid',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
@@ -36,6 +40,14 @@ export class createUsersFriends1623540475128 implements MigrationInterface {
             columnNames: ['friend_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'users',
+            onDelete: 'NO ACTION',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'FKUsersFriendsRoom',
+            columnNames: ['room_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'rooms',
             onDelete: 'NO ACTION',
             onUpdate: 'CASCADE',
           },

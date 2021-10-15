@@ -17,19 +17,23 @@ export class CreateMessageControllerWs {
       content?: string;
     };
 
-    const createMessageUseCase = container.resolve(CreateMessageUseCase);
+    try {
+      const createMessageUseCase = container.resolve(CreateMessageUseCase);
 
-    const message = await createMessageUseCase.execute({
-      typeMessage,
-      mediaPath: filename,
-      typeMedia,
-      content,
-      roomId,
-      creatorUserId: userId,
-    });
+      const message = await createMessageUseCase.execute({
+        typeMessage,
+        mediaPath: filename,
+        typeMedia,
+        content,
+        roomId,
+        creatorUserId: userId,
+      });
 
-    socket.broadcast.to(message.roomId).emit('server:newMessage', message);
+      socket.broadcast.to(roomId).emit('server:newMessage', message);
 
-    callback(null, message);
+      callback(null, message);
+    } catch (error) {
+      callback(error);
+    }
   }
 }

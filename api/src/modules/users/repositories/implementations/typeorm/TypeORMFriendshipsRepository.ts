@@ -63,6 +63,7 @@ export class TypeORMFriendshipsRepository implements IFriendshipsRepository {
         friendId,
         userId,
         decision: null,
+        deleted: false,
       },
     });
 
@@ -80,6 +81,7 @@ export class TypeORMFriendshipsRepository implements IFriendshipsRepository {
   decidedFriendRequest(data: {
     requestId: string;
     decision: IEnumDecisionFriendshipRequest.ACCEPTED;
+    roomId: string;
   }): Promise<IAcceptFriendRequest>;
   decidedFriendRequest(data: {
     requestId: string;
@@ -88,9 +90,11 @@ export class TypeORMFriendshipsRepository implements IFriendshipsRepository {
   async decidedFriendRequest({
     decision,
     requestId,
+    roomId,
   }: {
     requestId: string;
     decision: IEnumDecisionFriendshipRequest;
+    roomId?: string;
   }): Promise<IAcceptFriendRequest | IRejectFriendRequest> {
     const decidedFriendship = await getManager().transaction(
       async (
@@ -117,11 +121,13 @@ export class TypeORMFriendshipsRepository implements IFriendshipsRepository {
           const friendshipUser = await usersFriendsRepository.save({
             friendId: friendshipRequest.friendId,
             userId: friendshipRequest.userId,
+            roomId,
           });
 
           const friendshipFriend = await usersFriendsRepository.save({
             friendId: friendshipRequest.userId,
             userId: friendshipRequest.friendId,
+            roomId,
           });
 
           return {

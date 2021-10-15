@@ -10,7 +10,10 @@ type IRequest = {
   userId: string;
 };
 
-type IResponse = IUserMapForPublic[];
+type IResponse = {
+  friend: IUserMapForPublic;
+  roomId: string;
+}[];
 
 @injectable()
 export class GetFriendshipsUseCase {
@@ -37,7 +40,10 @@ export class GetFriendshipsUseCase {
       friendships.map(async friendship => {
         const friend = await this.usersRepository.findById(friendship.friendId);
 
-        return UserMap.mapForPublic(friend);
+        return {
+          friend: UserMap.mapForPublic(friend),
+          roomId: friendship.roomId,
+        };
       })
     );
 

@@ -32,9 +32,7 @@ export class CancelFriendshipRequestControllerWs {
           });
       }
 
-      callback(null, {
-        friendshipRequestId,
-      });
+      callback(null);
     } catch (error) {
       callback(error);
     }

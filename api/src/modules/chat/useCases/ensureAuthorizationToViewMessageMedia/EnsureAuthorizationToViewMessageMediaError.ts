@@ -1,6 +1,6 @@
 import { AppError } from '@shared/errors/AppError';
 
-export namespace EnsureAuthorizationToViewMediaError {
+export namespace EnsureAuthorizationToViewMessageMediaError {
   export class UserDoesNotExist extends AppError {
     constructor() {
       super('User does not exist');

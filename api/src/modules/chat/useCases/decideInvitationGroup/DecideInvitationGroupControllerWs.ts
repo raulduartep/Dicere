@@ -1,13 +1,17 @@
 import { container } from 'tsyringe';
 
 import { ICallbackWS, IRequestWS } from '@infra/websocket/app';
+import { IEnumDecisionInvitationGroup } from '@modules/chat/entities/IInvitationGroup';
 
 import { DecideInvitationGroupUseCase } from './DecideInvitationGroupUseCase';
 
 export class DecideInvitationGroupControllerWs {
   async handle(request: IRequestWS, callback: ICallbackWS): Promise<void> {
     const { socket } = request;
-    const { invitationId, decision } = request.body;
+    const { invitationId, decision } = request.body as {
+      invitationId: string;
+      decision: IEnumDecisionInvitationGroup;
+    };
     const { id: userId } = socket.user;
 
     try {

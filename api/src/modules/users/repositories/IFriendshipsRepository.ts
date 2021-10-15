@@ -44,6 +44,7 @@ export interface IFriendshipsRepository {
   decidedFriendRequest(data: {
     requestId: string;
     decision: IEnumDecisionFriendshipRequest.ACCEPTED;
+    roomId: string;
   }): Promise<IAcceptFriendRequest>;
   decidedFriendRequest(data: {
     requestId: string;
@@ -52,6 +53,7 @@ export interface IFriendshipsRepository {
   decidedFriendRequest(data: {
     requestId: string;
     decision: IEnumDecisionFriendshipRequest;
+    roomId?: string;
   }): Promise<IAcceptFriendRequest | IRejectFriendRequest>;
 
   deleteFriendRequest(requestId: string): Promise<IFriendshipRequest>;
